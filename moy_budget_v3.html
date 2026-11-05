@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мой бюджет — точные расчёты</title>
+<style>
+:root{--bg:#f5f7fb;--paper:#fff;--ink:#19243a;--muted:#68758a;--line:#e2e7f0;--accent:#5465df;--positive:#078562;--negative:#c74257;--input-bg:#fff;--input-border:#d5dce8;--th-bg:#f8faff;--secondary-bg:#edf0ff;--secondary-ink:#4658c2;--danger-bg:#ffedf0;--danger-ink:#b72944;--progress-bg:#e8edf6;--modal-bg:#fff;--notice-bg:#fff4df;--notice-ink:#7b4b00;--error-bg:#fff0f0;--error-ink:#a1263c;--focus:#aeb9ff;--side:#18233e;--toast-bg:#18233e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:15px/1.5 system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:10px 13px;background:var(--accent);color:white;font-weight:650}button:hover{filter:brightness(.95)}button:disabled{opacity:.5;cursor:not-allowed}.secondary{background:var(--secondary-bg);color:var(--secondary-ink)}.danger{background:var(--danger-bg);color:var(--danger-ink)}.small{padding:6px 9px;font-size:12px}.shell{display:flex;min-height:100vh}.side{width:220px;flex-shrink:0;background:var(--side);color:#fff;padding:22px 13px}.brand{font-size:22px;font-weight:800;padding:4px 10px 8px}.brand a{color:#fff;text-decoration:none}.home-link{display:inline-block;margin:0 10px 16px;color:#bac7df;text-decoration:none;font-size:12px;font-weight:650}.home-link:hover{color:#fff}.nav{display:grid;gap:7px}.nav button{text-align:left;background:transparent;color:#cfdaee;font-weight:500}.nav button.active,.nav button:hover{background:#364569;color:#fff}.side-note{font-size:12px;color:#bac7df;margin:25px 10px}.main{min-width:0;flex:1;max-width:1600px;margin:0 auto;padding:28px}.header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:19px}h1{font-size:28px;line-height:1.2;margin:0 0 7px}h2{font-size:17px;margin:0 0 17px}.muted{color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.period{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}input,select{border:1px solid var(--input-border);border-radius:9px;padding:10px;background:var(--input-bg);color:var(--ink);min-width:0;width:100%}input:focus,select:focus{outline:2px solid var(--focus);outline-offset:1px}.period input{width:190px}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0 0 18px}.card,.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:19px;min-width:0}.card .label{color:var(--muted);font-size:13px}.card .value{font-size:clamp(18px,2.1vw,27px);font-weight:800;overflow-wrap:anywhere;margin-top:9px}.value.positive,.positive{color:var(--positive)}.value.negative,.negative{color:var(--negative)}.columns{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:18px}.section{display:none}.section.active{display:block}.chart{height:250px;width:100%;display:block}.legend,.item{padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}.item>span:last-child{text-align:right}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}.progress{background:var(--progress-bg);height:9px;border-radius:8px;overflow:hidden;margin:9px 0}.progress>div{height:100%;background:var(--accent);border-radius:8px}.budget-row,.goal-row{border-bottom:1px solid var(--line);padding:12px 0}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.row strong{overflow-wrap:anywhere;text-align:right}.filters{display:grid;grid-template-columns:1fr 180px 180px;gap:10px;margin-bottom:15px}.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:720px;font-size:13px}th,td{text-align:left;border-bottom:1px solid var(--line);padding:12px 8px;vertical-align:top}th{background:var(--th-bg);color:var(--muted)}.empty{color:var(--muted);padding:22px;text-align:center}.grid-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field label{display:block;font-size:13px;font-weight:650;margin-bottom:5px}.full{grid-column:1/-1}.modal-layer{position:fixed;inset:0;background:#0f172ac0;display:none;align-items:center;justify-content:center;padding:15px;z-index:60}.modal-layer.open{display:flex}.modal{background:var(--modal-bg);color:var(--ink);border-radius:17px;width:min(100%,520px);max-height:90vh;overflow-y:auto;padding:24px}.modal footer{display:flex;gap:9px;justify-content:flex-end;margin-top:19px}.notice{background:var(--notice-bg);color:var(--notice-ink);padding:12px;border-radius:10px;margin:14px 0}.error{background:var(--error-bg);color:var(--error-ink)}.settings-grid{display:flex;flex-wrap:wrap;gap:10px}.settings-grid>*{flex:0 1 auto}.hint{color:var(--muted);font-size:12px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+@media(max-width:980px){.side{width:170px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.columns{grid-template-columns:1fr}.main{padding:18px}}@media(max-width:650px){.shell{display:block}.side{width:100%;padding:12px}.brand{padding:0 4px 8px}.nav{display:flex;overflow-x:auto}.nav button{flex:0 0 auto;white-space:nowrap;font-size:12px}.side-note{display:none}.main{padding:14px}h1{font-size:24px}.cards{gap:9px}.card,.panel{padding:14px}.card .value{font-size:20px}.filters,.grid-form{grid-template-columns:1fr}}
+@media print{.side,.header,.period,#dashboard,#transactions,#budgets,#goals,#settings,.actions,#toast,.theme-toggle{display:none!important}.section{display:none!important}#reports{display:block!important}.main{padding:0}.panel{border:0}#reports .grid-form{display:none}#reports h2{margin-top:18px}table{min-width:0;font-size:11px}}
+
+/* Тёмная тема: те же переменные, более тёмные поверхности */
+html[data-theme="dark"]{
+ --bg:#101624;--paper:#1a2438;--ink:#e8eef8;--muted:#9aa8bd;--line:#2c3a54;--accent:#7b8bff;--positive:#3dcea8;--negative:#e86b7d;
+ --input-bg:#121a2b;--input-border:#3a4a66;--th-bg:#151e30;--secondary-bg:#2a3558;--secondary-ink:#c5ceff;
+ --danger-bg:#3a1f28;--danger-ink:#f08a9a;--progress-bg:#2a354c;--modal-bg:#1a2438;
+ --notice-bg:#3a2e18;--notice-ink:#f0c98a;--error-bg:#3a1c24;--error-ink:#f08a9a;--focus:#7b8bff;
+ --side:#0f1626;--toast-bg:#2a3558;color-scheme:dark
+}
+
+/* Круглая кнопка темы в правом нижнем углу, поверх контента */
+.theme-toggle{
+ position:fixed;right:20px;bottom:20px;z-index:40;width:52px;height:52px;padding:0;border-radius:50%;
+ background:var(--accent);color:#fff;font-size:22px;line-height:1;box-shadow:0 8px 24px #0004
+}
+.theme-toggle:hover{filter:brightness(1.08)}
+html[data-theme="dark"] .nav button{color:#c5d0e4}
+html[data-theme="dark"] .nav button.active,html[data-theme="dark"] .nav button:hover{background:#2a3558}
+</style>
+</head>
+<body>
+<div class="shell"><aside class="side">
+<!-- Ссылка на приветственную страницу сайта -->
+<div class="brand"><a href="index.html">◈ Мой бюджет</a></div>
+<a class="home-link" href="index.html">← На главную</a>
+<nav class="nav" aria-label="Разделы">
+<button class="active" data-page="dashboard">◫ Обзор</button><button data-page="transactions">⇄ Операции</button><button data-page="budgets">◉ Бюджеты</button><button data-page="goals">☆ Цели</button><button data-page="reports">▤ Отчёты</button><button data-page="settings">⚙ Настройки</button>
+</nav><div class="side-note">Данные хранятся только в этом браузере. Создавайте резервные копии.</div></aside>
+<main class="main"><header class="header"><div><h1 id="pageTitle">Финансовый обзор</h1><div class="muted">Доходы, расходы и накопления под контролем</div></div><div class="actions"><button class="secondary" id="exportCsv">↓ CSV</button><button id="addTransaction">+ Операция</button></div></header>
+<div class="period"><label for="monthPicker">Отчётный месяц</label><input id="monthPicker" type="month"><button class="secondary small" id="currentMonth">Текущий месяц</button></div>
+<div id="storageWarning" class="notice error" hidden>В сохранённых данных обнаружена ошибка. Изменения заблокированы, чтобы не перезаписать исходные данные. Сохраните исходное содержимое браузера или восстановите корректную резервную копию JSON через настройки.</div>
+<section id="dashboard" class="section active"><div class="cards"><article class="card"><div class="label">Расчётный баланс на конец месяца</div><div id="balance" class="value">—</div><div class="hint">С начала учёта по конец выбранного месяца</div></article><article class="card"><div class="label">Доходы месяца</div><div id="income" class="value positive">—</div></article><article class="card"><div class="label">Расходы месяца</div><div id="expense" class="value negative">—</div></article><article class="card"><div class="label">Остаток месяца</div><div id="remainder" class="value">—</div><div id="savingRate" class="hint">—</div></article></div>
+<div class="columns"><article class="panel"><h2>Доходы и расходы за 6 месяцев</h2><canvas class="chart" id="trendChart" role="img" aria-label="Столбчатая диаграмма доходов и расходов"></canvas><p class="hint">Зелёный — доходы, красный — расходы.</p></article><article class="panel"><h2>Расходы по категориям</h2><canvas class="chart" id="categoryChart" role="img" aria-label="Кольцевая диаграмма расходов"></canvas><div id="categoryLegend"></div></article></div>
+<div class="columns"><article class="panel"><h2>Последние операции</h2><div id="recent"></div></article><article class="panel"><h2>Исполнение бюджетов</h2><div id="budgetPreview"></div></article></div></section>
+<section id="transactions" class="section"><article class="panel"><h2>История операций за выбранный месяц</h2><div class="filters"><input id="search" type="search" placeholder="Поиск описания или категории" aria-label="Поиск"><select id="typeFilter" aria-label="Тип операции"><option value="all">Все типы</option><option value="income">Доходы</option><option value="expense">Расходы</option></select><select id="categoryFilter" aria-label="Категория"><option value="all">Все категории</option></select></div><div class="table-scroll"><table><thead><tr><th>Дата</th><th>Тип</th><th>Категория</th><th>Описание</th><th>Сумма</th><th>Действия</th></tr></thead><tbody id="transactionRows"></tbody></table></div></article></section>
+<section id="budgets" class="section"><article class="panel"><h2>Лимиты расходов за выбранный месяц</h2><p class="muted">Лимит 0 означает отсутствие ограничения. Изменения нужно сохранить.</p><div id="budgetEditor"></div><button id="saveBudgets">Сохранить лимиты</button></article></section>
+<section id="goals" class="section"><article class="panel"><div class="header"><h2>Финансовые цели</h2><button id="addGoal">+ Новая цель</button></div><div id="goalList"></div><p class="hint">Цели ведутся отдельно от операций и не уменьшают баланс автоматически.</p></article></section>
+<section id="reports" class="section"><article class="panel"><h2>Отчёт за произвольный период</h2><div class="grid-form"><div class="field"><label for="reportFrom">Дата начала</label><input id="reportFrom" type="date"></div><div class="field"><label for="reportTo">Дата окончания</label><input id="reportTo" type="date"></div></div><div class="actions" style="margin:16px 0"><button id="buildReport">Сформировать отчёт</button><button id="reportCsv" class="secondary">Скачать CSV</button><button id="reportPrint" class="secondary">Печать / PDF</button></div><div id="reportContent" aria-live="polite" class="table-scroll"></div></article></section>
+<section id="settings" class="section"><article class="panel"><h2>Валюта учёта</h2><select id="currency" style="max-width:300px"><option value="RUB">Российский рубль (₽)</option><option value="EUR">Евро (€)</option><option value="USD">Доллар ($)</option></select><p class="notice">Переключение валюты не является конвертацией: числовые суммы остаются прежними. Для учёта используйте только одну валюту.</p><button id="saveSettings">Сохранить валюту</button></article><article class="panel" style="margin-top:18px"><h2>Место хранения данных</h2><label for="storageMode">Источник данных</label><select id="storageMode" style="max-width:400px"><option value="local">Этот браузер — постоянно</option><option value="session">Только до закрытия вкладки (сеанс)</option><option value="memory">Только до перезагрузки страницы (временная память)</option></select><p class="hint">При смене места хранения данные копируются в выбранное хранилище, старый источник не удаляется. Переход в режим сеанса или памяти повышает риск потери данных. Файл JSON — независимая резервная копия, а не автоматическая синхронизация.</p><button id="applyStorage" class="secondary">Применить способ хранения</button><div id="storageStatus" class="hint" style="margin-top:8px"></div></article>
+<article class="panel" style="margin-top:18px"><h2>Уведомления</h2><div class="field"><label><input id="noticeSuccess" type="checkbox" style="width:auto"> Показывать уведомления о сохранении и удалении</label></div><div class="field"><label><input id="noticeErrors" type="checkbox" style="width:auto"> Показывать сообщения об ошибках</label></div><div class="field"><label><input id="noticeBackup" type="checkbox" style="width:auto"> Напоминать о резервном копировании после изменений</label></div><p class="hint">Уведомления выводятся внутри приложения. Это не системные push-уведомления и не отправка сообщений.</p><button id="saveNotifications">Сохранить настройки уведомлений</button></article>
+<article class="panel" style="margin-top:18px"><h2>Резервное копирование</h2><div class="settings-grid"><button id="exportJson" class="secondary">Скачать JSON</button><button id="importJson" class="secondary">Восстановить JSON</button><button id="clearData" class="danger">Удалить данные</button></div><input type="file" id="importFile" accept=".json,application/json" hidden><p class="hint">JSON позволяет перенести данные с другого устройства. Восстановление заменяет активную базу; синхронизация с облаком и банком в этой автономной версии отсутствует.</p></article></section>
+</main></div>
+<!-- Уведомления чуть выше кнопки темы, чтобы они не перекрывали друг друга -->
+<div id="toast" role="status" aria-live="polite" style="position:fixed;bottom:88px;right:20px;max-width:370px;background:var(--toast-bg);color:white;padding:12px 16px;border-radius:12px;z-index:50;display:none;box-shadow:0 6px 24px #0003"></div>
+<!-- Кнопка смены светлой и тёмной темы: всегда в правом нижнем углу -->
+<button type="button" id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Переключить на тёмную тему" title="Тёмная тема">🌙</button>
+<div id="transactionModal" class="modal-layer" role="presentation"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="transactionTitle"><h2 id="transactionTitle">Новая операция</h2><form id="transactionForm"><div class="grid-form"><div class="field"><label for="transactionType">Тип</label><select id="transactionType"><option value="expense">Расход</option><option value="income">Доход</option></select></div><div class="field"><label for="transactionAmount">Сумма</label><input id="transactionAmount" required type="text" inputmode="decimal" pattern="[0-9]+([.,][0-9]{1,2})?"></div><div class="field"><label for="transactionCategory">Категория</label><select id="transactionCategory" required></select></div><div class="field"><label for="transactionDate">Дата</label><input id="transactionDate" required type="date"></div><div class="field full"><label for="transactionDescription">Описание</label><input id="transactionDescription" maxlength="150" placeholder="Например, продукты"></div></div><footer><button type="button" class="secondary" data-close="transactionModal">Отмена</button><button type="submit">Сохранить</button></footer></form></div></div>
+<div id="goalModal" class="modal-layer" role="presentation"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="goalTitle"><h2 id="goalTitle">Новая цель</h2><form id="goalForm"><div class="grid-form"><div class="field full"><label for="goalName">Название</label><input id="goalName" maxlength="100" required></div><div class="field"><label for="goalTarget">Сколько нужно</label><input id="goalTarget" type="text" inputmode="decimal" pattern="[0-9]+([.,][0-9]{1,2})?" required></div><div class="field"><label for="goalSaved">Сколько накоплено</label><input id="goalSaved" type="text" inputmode="decimal" pattern="[0-9]+([.,][0-9]{1,2})?" required></div></div><footer><button type="button" class="secondary" data-close="goalModal">Отмена</button><button type="submit">Сохранить</button></footer></form></div></div>
+<script>
+'use strict';
+const KEY='my_budget_app_v1';
+const EXPENSE=['Продукты','Жильё','Транспорт','Здоровье','Покупки','Развлечения','Образование','Связь и интернет','Путешествия','Другое'];
+const INCOME=['Зарплата','Подработка','Бизнес','Инвестиции','Подарки','Возвраты','Другой доход'];
+const COLORS=['#5465df','#09a77a','#f4ad4b','#dc6578','#9874ed','#2eabc7','#97a853','#e48d56','#8795ac','#c477a7'];
+const emptyState=()=>({transactions:[],budgets:{},goals:[],settings:{currency:'RUB'}});
+let state=emptyState(),locked=false,month=monthKey(new Date()),editTransaction=null,editGoal=null;
+const $=id=>document.getElementById(id);
+const own=(obj,key)=>Object.prototype.hasOwnProperty.call(obj,key);
+// Each stored amount is validated and is at most 999,999,999,999.00.
+// Thus a single amount in kopecks is a safe integer; totals use BigInt.
+function normalizeMoney(n,zero=false){
+ // Legacy JSON contained finite Number amounts; new files use exact decimal strings.
+ if(typeof n==='number'){
+  if(!Number.isFinite(n)||n<0||n>999999999999||Math.abs(n*100-Math.round(n*100))>=.00001)throw Error('Недопустимая сумма');
+  n=n.toFixed(2);
+ }
+ if(typeof n!=='string')throw Error('Недопустимый тип суммы');
+ const raw=n.trim().replace(',', '.');
+ if(!/^(?:0|[1-9]\d{0,11})(?:\.\d{1,2})?$/.test(raw))throw Error('Укажите сумму с точностью до двух копеек');
+ const [major,minor='']=raw.split('.');
+ const value=BigInt(major)*100n+BigInt(minor.padEnd(2,'0'));
+ if(value>99999999999999n||(!zero&&value===0n))throw Error('Сумма вне допустимого диапазона');
+ return (value/100n).toString()+'.'+(value%100n).toString().padStart(2,'0');
+}
+function cents(n){const [a,b]=normalizeMoney(n,true).split('.');return BigInt(a)*100n+BigInt(b)}
+function decimalMoney(v){
+ const neg=v<0n,abs=neg?-v:v;
+ return (neg?'-':'')+(abs/100n).toString()+'.'+(abs%100n).toString().padStart(2,'0');
+}
+function moneyC(v){
+ const neg=v<0n,abs=neg?-v:v;
+ const integer=new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(abs/100n);
+ const fractional=(abs%100n).toString().padStart(2,'0');
+ return new Intl.NumberFormat('ru-RU',{style:'currency',currency:state.settings.currency,minimumFractionDigits:2,maximumFractionDigits:2})
+  .formatToParts(neg?-1.01:1.01).map(part=>part.type==='integer'?integer:part.type==='fraction'?fractional:part.value).join('');
+}
+function percentTenths(part,total){
+ if(total===0n)return '—';
+ const neg=part<0n,abs=neg?-part:part;
+ const tenths=(abs*1000n+total/2n)/total;
+ return (neg?'−':'')+(tenths/10n).toString()+','+(tenths%10n).toString()+'%';
+}
+function percentNumber(part,total){
+ if(total===0n)return 0;
+ // For charts only: bounded float ratio; exact amounts remain BigInt.
+ return Number(part*1000000n/total)/10000;
+}
+const validMoney=(n,zero=false)=>{try{normalizeMoney(n,zero);return true}catch{return false}};
+function monthKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+function dateKey(d){return monthKey(d)+'-'+String(d.getDate()).padStart(2,'0')}
+function validDate(s){if(typeof s!=='string'||!/^(\d{4})-(\d\d)-(\d\d)$/.test(s))return false;const [y,m,d]=s.split('-').map(Number);const v=new Date(y,m-1,d);return y>=100&&v.getFullYear()===y&&v.getMonth()===m-1&&v.getDate()===d}
+function validMonth(s){return typeof s==='string'&&/^\d{4}-(0[1-9]|1[0-2])$/.test(s)&&Number(s.slice(0,4))>=100}
+function safeText(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function uniqueId(){return (window.crypto && typeof window.crypto.randomUUID==='function')?window.crypto.randomUUID():('id-'+Date.now()+'-'+Math.random().toString(36).slice(2))}
+function money(n){return moneyC(cents(n))}
+function categoryList(type){return type==='income'?INCOME:EXPENSE}
+function sumC(items,type){return items.reduce((total,t)=>total+(t.type===type?cents(t.amount):0n),0n)}
+function monthItems(m=month){return state.transactions.filter(t=>t.date.slice(0,7)===m)}
+function sorted(items){return [...items].sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id))}
+function validate(data){
+ if(!data||typeof data!=='object'||Array.isArray(data)||!Array.isArray(data.transactions)||!Array.isArray(data.goals)||!data.budgets||typeof data.budgets!=='object'||Array.isArray(data.budgets)||!data.settings||typeof data.settings!=='object'||Array.isArray(data.settings))throw Error('Не хватает разделов данных');
+ if(data.transactions.length>100000||data.goals.length>10000||Object.keys(data.budgets).length>2000)throw Error('Превышен лимит записей');
+ if(!['RUB','EUR','USD'].includes(data.settings.currency))throw Error('Недопустимая валюта');
+ const ids=new Set();
+ for(const t of data.transactions){if(!t||typeof t.id!=='string'||!t.id||t.id.length>120||ids.has(t.id)||!['income','expense'].includes(t.type)||!validMoney(t.amount)||!validDate(t.date)||!categoryList(t.type).includes(t.category)||typeof t.description!=='string'||t.description.length>150)throw Error('Некорректная операция');ids.add(t.id)}
+ ids.clear();
+ for(const g of data.goals){if(!g||typeof g.id!=='string'||!g.id||g.id.length>120||ids.has(g.id)||typeof g.name!=='string'||!g.name.trim()||g.name.length>100||!validMoney(g.target)||!validMoney(g.saved,true))throw Error('Некорректная цель');ids.add(g.id)}
+ for(const [m,limits]of Object.entries(data.budgets)){if(!validMonth(m)||!limits||typeof limits!=='object'||Array.isArray(limits))throw Error('Некорректный месяц бюджета');for(const [cat,limit]of Object.entries(limits)){if(!EXPENSE.includes(cat)||!validMoney(limit,true))throw Error('Некорректный лимит')}}
+ return {transactions:data.transactions.map(t=>({...t,amount:normalizeMoney(t.amount)})),goals:data.goals.map(g=>({...g,target:normalizeMoney(g.target),saved:normalizeMoney(g.saved,true)})),budgets:Object.fromEntries(Object.entries(data.budgets).map(([m,b])=>[m,Object.fromEntries(Object.entries(b).map(([c,v])=>[c,normalizeMoney(v,true)]))])),settings:{currency:data.settings.currency}};
+}
+const MODE_KEY='my_budget_storage_mode_v2',NOTICE_KEY='my_budget_notice_v2';
+let storageMode='local',memoryRaw=null,notifyConfig={success:true,errors:true,backup:false},toastTimer;
+function toast(message,kind='success'){
+ if(kind==='error'&&!notifyConfig.errors)return;
+ if(kind!=='error'&&!notifyConfig.success)return;
+ const el=$('toast');el.textContent=message;el.style.background=kind==='error'?'#a1263c':'';el.style.display='block';
+ clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.style.display='none',4500);
+}
+function storeFor(mode){return mode==='local'?localStorage:mode==='session'?sessionStorage:null}
+function readActive(){return storageMode==='memory'?memoryRaw:storeFor(storageMode).getItem(KEY)}
+function writeActive(raw){if(storageMode==='memory'){memoryRaw=raw;return}storeFor(storageMode).setItem(KEY,raw)}
+function load(){try{
+ const m=localStorage.getItem(MODE_KEY);storageMode=['local','session','memory'].includes(m)?m:'local';
+ const cfg=JSON.parse(localStorage.getItem(NOTICE_KEY)||'null');if(cfg&&typeof cfg==='object')notifyConfig={success:cfg.success!==false,errors:cfg.errors!==false,backup:cfg.backup===true};
+ const raw=readActive();if(raw!==null)state=validate(JSON.parse(raw));
+ }catch(e){console.error('Storage read failure:',e);locked=true;lockUI()}}
+function lockUI(){ $('storageWarning').hidden=false;for(const id of ['addTransaction','addGoal','saveBudgets','saveSettings','clearData','applyStorage'])$(id).disabled=true }
+function commit(next){if(locked){toast('Данные заблокированы. Восстановите корректную копию.','error');return false}try{
+ const clean=validate(next);writeActive(JSON.stringify(clean));state=clean;render();toast('Изменения сохранены');
+ if(notifyConfig.backup)toast('Изменения сохранены. Не забудьте скачать резервную копию JSON.');
+ return true
+ }catch(e){toast('Изменения не сохранены: '+e.message,'error');alert('Изменения не сохранены: '+e.message);return false}}
+function switchStorage(){if(locked)return;const target=$('storageMode').value;if(target===storageMode){toast('Этот способ уже выбран');return}
+ if(target!=='local'&&!confirm('Выбранное хранилище может потерять данные при закрытии вкладки или перезагрузке. Продолжить?'))return;
+ try{const raw=JSON.stringify(validate(state));if(target==='memory')memoryRaw=raw;else storeFor(target).setItem(KEY,raw);
+ localStorage.setItem(MODE_KEY,target);storageMode=target;settings();toast('Данные скопированы в новое хранилище. Старое хранилище не удалено.');
+ }catch(e){toast('Не удалось изменить хранилище: '+e.message,'error');alert('Изменение хранилища не выполнено: '+e.message)}}
+function page(id){const titles={dashboard:'Финансовый обзор',transactions:'История операций',budgets:'Планирование бюджета',goals:'Финансовые цели',settings:'Настройки',reports:'Отчёты'};if(!own(titles,id))return;document.querySelectorAll('.section').forEach(e=>e.classList.toggle('active',e.id===id));document.querySelectorAll('[data-page]').forEach(e=>e.classList.toggle('active',e.dataset.page===id));$('pageTitle').textContent=titles[id];if(id==='dashboard')requestAnimationFrame(charts)}
+function stats(){
+ let income=0n,expense=0n,balance=0n;
+ for(const t of state.transactions){
+  const m=t.date.slice(0,7);if(m>month)continue;
+  const amount=cents(t.amount),isIncome=t.type==='income';
+  balance+=isIncome?amount:-amount;
+  if(m===month){if(isIncome)income+=amount;else expense+=amount}
+ }
+ const remaining=income-expense;
+ $('balance').textContent=moneyC(balance);
+ $('balance').className='value '+(balance<0n?'negative':'');
+ $('income').textContent=moneyC(income);
+ $('expense').textContent=moneyC(expense);
+ $('remainder').textContent=moneyC(remaining);
+ $('remainder').className='value '+(remaining<0n?'negative':'positive');
+ $('savingRate').textContent='Сбережения: '+(income>0n?percentTenths(remaining,income):'— (нет доходов)');
+}
+function fillCategories(preferred){const types=categoryList($('transactionType').value);$('transactionCategory').innerHTML=types.map(x=>`<option value="${safeText(x)}">${safeText(x)}</option>`).join('');if(types.includes(preferred))$('transactionCategory').value=preferred}
+function modal(id,open){$(id).classList.toggle('open',open)}
+function editOperation(id){const t=state.transactions.find(x=>x.id===id);if(id&&!t)return;editTransaction=t?.id??null;$('transactionTitle').textContent=t?'Редактировать операцию':'Новая операция';$('transactionForm').reset();$('transactionType').value=t?.type??'expense';fillCategories(t?.category);$('transactionAmount').value=t?.amount??'';$('transactionDate').value=t?.date??dateKey(new Date());$('transactionDescription').value=t?.description??'';modal('transactionModal',true)}
+function saveOperation(e){e.preventDefault();const type=$('transactionType').value,amount=$('transactionAmount').value,category=$('transactionCategory').value,date=$('transactionDate').value,description=$('transactionDescription').value.trim();if(!validMoney(amount)||!validDate(date)||!categoryList(type).includes(category)||description.length>150){alert('Проверьте поля операции: сумма должна содержать не более двух знаков после запятой.');return}const t={id:editTransaction??uniqueId(),type,amount,category,date,description};const transactions=editTransaction?state.transactions.map(x=>x.id===editTransaction?t:x):[...state.transactions,t];if(commit({...state,transactions}))modal('transactionModal',false)}
+function deleteOperation(id){if(locked||!confirm('Удалить операцию?'))return;commit({...state,transactions:state.transactions.filter(t=>t.id!==id)})}
+function filters(){const prev=$('categoryFilter').value;const categories=[...EXPENSE,...INCOME];$('categoryFilter').innerHTML='<option value="all">Все категории</option>'+categories.map(c=>`<option value="${safeText(c)}">${safeText(c)}</option>`).join('');$('categoryFilter').value=categories.includes(prev)?prev:'all'}
+function table(){const search=$('search').value.toLocaleLowerCase('ru').trim(),type=$('typeFilter').value,cat=$('categoryFilter').value;const items=sorted(monthItems()).filter(t=>(type==='all'||t.type===type)&&(cat==='all'||t.category===cat)&&(!search||(t.description+' '+t.category).toLocaleLowerCase('ru').includes(search)));$('transactionRows').innerHTML=items.length?items.map(t=>`<tr><td>${safeText(t.date.split('-').reverse().join('.'))}</td><td>${t.type==='income'?'Доход':'Расход'}</td><td>${safeText(t.category)}</td><td>${safeText(t.description||'—')}</td><td class="${t.type==='income'?'positive':'negative'}"><b>${t.type==='income'?'+':'−'}${money(t.amount)}</b></td><td><div class="actions"><button class="secondary small" data-edit-operation="${safeText(t.id)}">Изменить</button><button class="danger small" data-delete-operation="${safeText(t.id)}" ${locked?'disabled':''}>Удалить</button></div></td></tr>`).join(''):'<tr><td colspan="6" class="empty">Операций не найдено</td></tr>'}
+function recent(){const items=sorted(monthItems()).slice(0,5);$('recent').innerHTML=items.length?items.map(t=>`<div class="item"><span><b>${safeText(t.category)}</b><div class="hint">${safeText(t.date)} · ${safeText(t.description||'Без описания')}</div></span><span class="${t.type==='income'?'positive':'negative'}"><b>${t.type==='income'?'+':'−'}${money(t.amount)}</b></span></div>`).join(''):'<div class="empty">Нет операций за выбранный месяц</div>'}
+function spent(cat){return monthItems().reduce((s,t)=>s+(t.type==='expense'&&t.category===cat?cents(t.amount):0n),0n)}
+function budgetMarkup(cat,limit,editable){const s=spent(cat),lim=cents(limit),over=lim>0n&&s>lim,pct=lim>0n?Math.min(100,percentNumber(s,lim)):0;return `<div class="budget-row"><div class="row"><span>${safeText(cat)}</span><strong class="${over?'negative':''}">${moneyC(s)} / ${lim>0n?moneyC(lim):'без лимита'}</strong></div><div class="progress"><div style="width:${pct}%;background:${over?'#c74257':'#5465df'}"></div></div>${editable?`<label class="hint">Лимит <input data-budget="${safeText(cat)}" type="text" inputmode="decimal" value="${limit}" ${locked?'disabled':''}></label>`:''}</div>`}
+function budgets(){const limits=state.budgets[month]??{};$('budgetEditor').innerHTML=EXPENSE.map(cat=>budgetMarkup(cat,limits[cat]??0,true)).join('');const active=EXPENSE.filter(cat=>(limits[cat]??0)>0);$('budgetPreview').innerHTML=active.length?active.map(cat=>budgetMarkup(cat,limits[cat],false)).join(''):'<div class="empty">Лимиты пока не установлены</div>'}
+function saveBudgets(){const limits={};for(const field of document.querySelectorAll('[data-budget]')){if(field.value.trim()===''){alert('Заполните все лимиты, используя 0, если ограничение не нужно.');return}const n=field.value;if(!validMoney(n,true)){alert('Некорректный лимит: '+field.dataset.budget);return}if(cents(n)>0n)limits[field.dataset.budget]=n}if(commit({...state,budgets:{...state.budgets,[month]:limits}}))alert('Лимиты сохранены')}
+function editSavingGoal(id){const g=state.goals.find(x=>x.id===id);if(id&&!g)return;editGoal=g?.id??null;$('goalTitle').textContent=g?'Редактирование цели':'Новая цель';$('goalForm').reset();$('goalName').value=g?.name??'';$('goalTarget').value=g?.target??'';$('goalSaved').value=g?.saved??0;modal('goalModal',true)}
+function saveSavingGoal(e){e.preventDefault();const name=$('goalName').value.trim(),target=$('goalTarget').value,saved=$('goalSaved').value;if(!name||name.length>100||!validMoney(target)||!validMoney(saved,true)){alert('Проверьте данные цели.');return}const goal={id:editGoal??uniqueId(),name,target,saved};const goals=editGoal?state.goals.map(g=>g.id===editGoal?goal:g):[...state.goals,goal];if(commit({...state,goals}))modal('goalModal',false)}
+function goals(){$('goalList').innerHTML=state.goals.length?state.goals.map(g=>{const saved=cents(g.saved),target=cents(g.target),p=percentNumber(saved,target),done=saved>=target;return `<div class="goal-row"><div class="row"><b>${safeText(g.name)}</b><strong class="${done?'positive':''}">${percentTenths(saved,target)}</strong></div><div class="hint">${moneyC(saved)} из ${moneyC(target)}</div><div class="progress"><div style="width:${Math.min(p,100)}%;background:${done?'#078562':'#5465df'}"></div></div><div class="actions"><button class="secondary small" data-edit-goal="${safeText(g.id)}">Изменить</button><button class="danger small" data-delete-goal="${safeText(g.id)}" ${locked?'disabled':''}>Удалить</button></div></div>`}).join(''):'<div class="empty">Целей пока нет</div>'}
+function canvasContext(id){const c=$(id),rect=c.getBoundingClientRect();if(!rect.width||!rect.height)return null;const ratio=window.devicePixelRatio||1;c.width=Math.round(rect.width*ratio);c.height=Math.round(rect.height*ratio);const ctx=c.getContext('2d');if(!ctx)return null;ctx.setTransform(ratio,0,0,ratio,0,0);return {ctx,w:rect.width,h:rect.height}}
+function cssVar(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()}
+function noChart(c,w,h,msg){c.fillStyle=cssVar('--muted')||'#7d899d';c.font='14px sans-serif';c.textAlign='center';c.fillText(msg,w/2,h/2)}
+function drawCategories(){const c=canvasContext('categoryChart');if(!c)return;const {ctx,w,h}=c;const data=EXPENSE.map((cat,i)=>({cat,value:spent(cat),color:COLORS[i]})).filter(x=>x.value>0n);const total=data.reduce((s,x)=>s+x.value,0n);if(total===0n){noChart(ctx,w,h,'Нет расходов');$('categoryLegend').innerHTML='';return}const cx=w/2,cy=h/2,r=Math.min(w,h)*.39;let start=-Math.PI/2;for(const x of data){const arc=2*Math.PI*percentNumber(x.value,total)/100;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start,start+arc);ctx.fillStyle=x.color;ctx.fill();start+=arc}ctx.beginPath();ctx.arc(cx,cy,r*.62,0,2*Math.PI);ctx.fillStyle=cssVar('--paper')||'#fff';ctx.fill();ctx.textAlign='center';ctx.fillStyle=cssVar('--ink')||'#19243a';ctx.font='bold 14px sans-serif';ctx.fillText('Расходы',cx,cy-4);ctx.font='12px sans-serif';ctx.fillText(moneyC(total),cx,cy+16);$('categoryLegend').innerHTML=data.map(x=>`<div class="legend"><span><i class="dot" style="background:${x.color}"></i>${safeText(x.cat)}</span><b>${percentTenths(x.value,total)}</b></div>`).join('')}
+function drawTrend(){const c=canvasContext('trendChart');if(!c)return;const {ctx,w,h}=c;const [year,m]=month.split('-').map(Number);const months=Array.from({length:6},(_,i)=>monthKey(new Date(year,m-1-5+i,1)));const sums=new Map(months.map(k=>[k,{i:0n,e:0n}]));for(const t of state.transactions){const entry=sums.get(t.date.slice(0,7));if(entry)entry[t.type==='income'?'i':'e']+=cents(t.amount)}const values=months.map(key=>({key,...sums.get(key)}));const max=values.reduce((a,v)=>a>v.i?(a>v.e?a:v.e):(v.i>v.e?v.i:v.e),1n);const left=12,right=12,top=15,bottom=38,pw=w-left-right,ph=h-top-bottom;ctx.strokeStyle=cssVar('--line')||'#e2e7f0';for(let n=0;n<=4;n++){const y=top+n*ph/4;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke()}const step=pw/6,bar=Math.min(24,step*.26);for(let n=0;n<6;n++){const v=values[n],x=left+(n+.5)*step,ih=percentNumber(v.i,max)/100*ph,eh=percentNumber(v.e,max)/100*ph;ctx.fillStyle=cssVar('--positive')||'#078562';ctx.fillRect(x-bar-3,top+ph-ih,bar,ih);ctx.fillStyle=cssVar('--negative')||'#c74257';ctx.fillRect(x+3,top+ph-eh,bar,eh);ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillStyle=cssVar('--muted')||'#68758a';ctx.fillText(v.key.slice(5)+'.'+v.key.slice(2,4),x,h-14)}}
+function charts(){drawTrend();drawCategories()}
+function download(text,name,type){const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000)}
+function csvCell(x){let s=String(x??'');if(/^[\s\uFEFF]*[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}
+function exportCSV(){const rows=[['Дата','Тип','Категория','Описание','Сумма']];for(const t of sorted(state.transactions))rows.push([t.date,t.type==='income'?'Доход':'Расход',t.category,t.description,normalizeMoney(t.amount).replace('.',',')]);download('\uFEFF'+rows.map(r=>r.map(csvCell).join(';')).join('\r\n'),'budget-operations-'+dateKey(new Date())+'.csv','text/csv;charset=utf-8')}
+function exportJSON(){download(JSON.stringify(state,null,2),'budget-backup-'+dateKey(new Date())+'.json','application/json;charset=utf-8')}
+async function importJSON(file){if(!file)return;if(file.size>20*1024*1024){alert('Размер файла превышает 20 МБ');return}try{const incoming=validate(JSON.parse(await file.text()));if(!confirm('Заменить все текущие данные данными из файла?'))return;const serialized=JSON.stringify(incoming);writeActive(serialized);state=incoming;locked=false;$('storageWarning').hidden=true;for(const id of ['addTransaction','addGoal','saveBudgets','saveSettings','clearData','applyStorage'])$(id).disabled=false;render();alert('Данные восстановлены')}catch(e){alert('Ошибка восстановления: '+e.message)}}
+function settings(){ $('currency').value=state.settings.currency;$('storageMode').value=storageMode;
+ $('storageStatus').textContent='Текущий источник: '+({local:'постоянное хранилище браузера',session:'сеанс вкладки',memory:'оперативная память страницы'}[storageMode]);
+ $('noticeSuccess').checked=notifyConfig.success;$('noticeErrors').checked=notifyConfig.errors;$('noticeBackup').checked=notifyConfig.backup;
+}
+function reportItems(){const from=$('reportFrom').value,to=$('reportTo').value;
+ if(!validDate(from)||!validDate(to)||from>to)throw Error('Проверьте даты начала и окончания периода');
+ return sorted(state.transactions.filter(t=>t.date>=from&&t.date<=to));}
+function reportData(){const items=reportItems(),income=sumC(items,'income'),expense=sumC(items,'expense');return {items,income,expense};}
+function buildReport(){try{const {items,income,expense}=reportData();
+ const byCat=new Map();for(const t of items){const k=t.type+'|'+t.category;byCat.set(k,(byCat.get(k)||0n)+cents(t.amount))}
+ $('reportContent').innerHTML=`<p><b>Операций:</b> ${items.length} · <b>Доход:</b> ${moneyC(income)} · <b>Расход:</b> ${moneyC(expense)} · <b>Итог:</b> ${moneyC(income-expense)}</p><h2>Категории</h2><table><thead><tr><th>Тип</th><th>Категория</th><th>Сумма</th></tr></thead><tbody>${[...byCat].map(([k,v])=>`<tr><td>${k.startsWith('income|')?'Доход':'Расход'}</td><td>${safeText(k.split('|')[1])}</td><td>${moneyC(v)}</td></tr>`).join('')||'<tr><td colspan="3">Нет операций</td></tr>'}</tbody></table><h2 style="margin-top:18px">Операции</h2><table><thead><tr><th>Дата</th><th>Тип</th><th>Категория</th><th>Описание</th><th>Сумма</th></tr></thead><tbody>${items.map(t=>`<tr><td>${safeText(t.date)}</td><td>${t.type==='income'?'Доход':'Расход'}</td><td>${safeText(t.category)}</td><td>${safeText(t.description)}</td><td>${money(t.amount)}</td></tr>`).join('')||'<tr><td colspan="5">Нет операций</td></tr>'}</tbody></table>`;
+ }catch(e){toast(e.message,'error');alert(e.message)}}
+function downloadReport(){try{const {items,income,expense}=reportData();const rows=[['Дата','Тип','Категория','Описание','Сумма'],...items.map(t=>[t.date,t.type==='income'?'Доход':'Расход',t.category,t.description,normalizeMoney(t.amount).replace('.',',')]),[],['ИТОГО','Доходы','','',decimalMoney(income).replace('.',',')],['ИТОГО','Расходы','','',decimalMoney(expense).replace('.',',')],['ИТОГО','Разница','','',decimalMoney(income-expense).replace('.',',')]];
+ download('\uFEFF'+rows.map(r=>r.map(csvCell).join(';')).join('\r\n'),'budget-report-'+$('reportFrom').value+'-'+$('reportTo').value+'.csv','text/csv;charset=utf-8');
+ }catch(e){toast(e.message,'error');alert(e.message)}}
+function printReport(){try{reportData();buildReport();const old=document.title;document.title='Отчёт бюджета '+$('reportFrom').value+' — '+$('reportTo').value;document.body.classList.add('printing-report');window.print();document.body.classList.remove('printing-report');document.title=old;}catch(e){toast(e.message,'error');alert(e.message)}}
+
+function render(){ $('monthPicker').value=month;stats();filters();table();recent();budgets();goals();settings();if($('dashboard').classList.contains('active'))requestAnimationFrame(charts)}
+const THEME_KEY='my_budget_theme_v1';
+function applyTheme(theme){
+ const dark=theme==='dark';
+ document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+ const btn=$('themeToggle');
+ btn.textContent=dark?'☀️':'🌙';
+ btn.setAttribute('aria-pressed',dark?'true':'false');
+ btn.setAttribute('aria-label',dark?'Переключить на светлую тему':'Переключить на тёмную тему');
+ btn.title=dark?'Светлая тема':'Тёмная тема';
+ if($('dashboard').classList.contains('active'))requestAnimationFrame(charts);
+}
+function loadTheme(){
+ let theme='light';
+ try{const saved=localStorage.getItem(THEME_KEY);if(saved==='dark'||saved==='light')theme=saved}catch(e){}
+ applyTheme(theme);
+}
+function toggleTheme(){
+ const next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+ try{localStorage.setItem(THEME_KEY,next)}catch(e){}
+ applyTheme(next);
+}
+function setup(){document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));$('themeToggle').addEventListener('click',toggleTheme);$('addTransaction').addEventListener('click',()=>editOperation());$('transactionType').addEventListener('change',()=>fillCategories());$('transactionForm').addEventListener('submit',saveOperation);$('addGoal').addEventListener('click',()=>editSavingGoal());$('goalForm').addEventListener('submit',saveSavingGoal);$('monthPicker').addEventListener('change',e=>{if(validMonth(e.target.value)){month=e.target.value;render()}});$('currentMonth').addEventListener('click',()=>{month=monthKey(new Date());render()});$('search').addEventListener('input',table);$('typeFilter').addEventListener('change',table);$('categoryFilter').addEventListener('change',table);$('saveBudgets').addEventListener('click',saveBudgets);$('saveSettings').addEventListener('click',()=>{const currency=$('currency').value;if(currency!==state.settings.currency&&!confirm('Суммы не будут пересчитаны по курсу. Изменить валюту обозначения?'))return;if(commit({...state,settings:{currency}}))alert('Настройки сохранены')});$('exportCsv').addEventListener('click',exportCSV);$('exportJson').addEventListener('click',exportJSON);$('importJson').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',async e=>{await importJSON(e.target.files[0]);e.target.value=''});$('clearData').addEventListener('click',()=>{if(!confirm('Удалить все операции, цели и бюджеты?')||!confirm('Подтвердите окончательное удаление.'))return;if(commit(emptyState()))alert('Данные удалены')});document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.close)modal(b.dataset.close,false);if(locked)return;if(b.dataset.editOperation)editOperation(b.dataset.editOperation);if(b.dataset.deleteOperation&&confirm('Удалить операцию?'))commit({...state,transactions:state.transactions.filter(t=>t.id!==b.dataset.deleteOperation)});if(b.dataset.editGoal)editSavingGoal(b.dataset.editGoal);if(b.dataset.deleteGoal&&confirm('Удалить цель?'))commit({...state,goals:state.goals.filter(g=>g.id!==b.dataset.deleteGoal)})});document.querySelectorAll('.modal-layer').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)modal(m.id,false)}));document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-layer.open').forEach(m=>modal(m.id,false))});window.addEventListener('resize',()=>{if($('dashboard').classList.contains('active'))requestAnimationFrame(charts)})}
+load();setup();loadTheme();render();page('dashboard');
+const now=new Date();$('reportTo').value=dateKey(now);$('reportFrom').value=monthKey(now)+'-01';
+$('buildReport').addEventListener('click',buildReport);
+$('reportCsv').addEventListener('click',downloadReport);
+$('reportPrint').addEventListener('click',printReport);
+$('applyStorage').addEventListener('click',switchStorage);
+$('saveNotifications').addEventListener('click',()=>{notifyConfig={success:$('noticeSuccess').checked,errors:$('noticeErrors').checked,backup:$('noticeBackup').checked};try{localStorage.setItem(NOTICE_KEY,JSON.stringify(notifyConfig));toast('Настройки уведомлений сохранены')}catch(e){alert('Не удалось сохранить настройки уведомлений: '+e.message)}});
+
+</script>
+</body></html>

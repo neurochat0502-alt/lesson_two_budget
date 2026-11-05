@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Мой бюджет — автономный учёт доходов, расходов, лимитов и целей. Данные остаются в браузере.">
+<title>Мой бюджет — учёт без облака</title>
+<style>
+:root{
+ --bg:#f5f7fb;--paper:#fff;--ink:#19243a;--muted:#68758a;--line:#e2e7f0;--accent:#5465df;
+ --positive:#078562;--side:#18233e;--focus:#aeb9ff
+}
+html[data-theme="dark"]{
+ --bg:#101624;--paper:#1a2438;--ink:#e8eef8;--muted:#9aa8bd;--line:#2c3a54;--accent:#7b8bff;
+ --positive:#3dcea8;--side:#0f1626;--focus:#7b8bff;color-scheme:dark
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,'Segoe UI',sans-serif}
+a{color:var(--accent)}
+.wrap{width:min(1080px,calc(100% - 32px));margin:0 auto}
+.top{
+ display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+ padding:18px 0
+}
+.brand{color:var(--ink);text-decoration:none;font-weight:800;font-size:22px}
+.top-nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.top-nav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:650}
+.top-nav a:hover{color:var(--ink)}
+.btn{
+ display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:10px;
+ padding:11px 16px;background:var(--accent);color:#fff;font:inherit;font-weight:700;
+ text-decoration:none;cursor:pointer
+}
+.btn:hover{filter:brightness(.95)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.hero{padding:36px 0 18px;display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center}
+h1{font-size:clamp(32px,5vw,48px);line-height:1.15;margin:0 0 12px}
+.lead{color:var(--muted);font-size:18px;margin:0 0 22px;max-width:36rem}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.preview{
+ background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;
+ box-shadow:0 16px 40px #18233e14
+}
+.preview .row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.preview .row:last-child{border-bottom:0}
+.preview b{font-size:18px}
+.positive{color:var(--positive)}
+.kicker{color:var(--accent);font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:12px;margin:0 0 8px}
+.section{padding:28px 0 8px}
+.section h2{margin:0 0 16px;font-size:26px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px}
+.card h3{margin:0 0 8px;font-size:17px}
+.card p{margin:0;color:var(--muted);font-size:14px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;counter-reset:step}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px}
+.step::before{counter-increment:step;content:counter(step);display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;background:var(--accent);color:#fff;font-size:13px;font-weight:800;margin-bottom:10px}
+.note{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;color:var(--muted)}
+.foot{padding:28px 0 40px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.theme-toggle{
+ position:fixed;right:20px;bottom:20px;z-index:40;width:52px;height:52px;padding:0;border:0;border-radius:50%;
+ background:var(--accent);color:#fff;font-size:22px;cursor:pointer;box-shadow:0 8px 24px #0004
+}
+@media(max-width:860px){
+ .hero,.grid,.steps{grid-template-columns:1fr}
+ h1{font-size:34px}
+ .preview{padding-right:72px}
+}
+</style>
+</head>
+<body>
+<!-- Верхняя навигация лендинга -->
+<header class="wrap top">
+  <a class="brand" href="index.html">◈ Мой бюджет</a>
+  <nav class="top-nav" aria-label="Разделы сайта">
+    <a href="#features">Возможности</a>
+    <a href="#how">Как устроено</a>
+    <a href="#privacy">Приватность</a>
+    <a class="btn" href="moy_budget_v3.html">Открыть учёт</a>
+  </nav>
+</header>
+
+<main>
+  <!-- Приветственный блок -->
+  <section class="wrap hero">
+    <div>
+      <p class="kicker">Автономный учёт</p>
+      <h1>Доходы, расходы и цели — в одном окне браузера</h1>
+      <p class="lead">Ведите бюджет без регистрации и облака. Операции, лимиты, цели и отчёты хранятся только на этом устройстве.</p>
+      <div class="cta">
+        <a class="btn" href="moy_budget_v3.html">Начать учёт</a>
+        <a class="btn ghost" href="#features">Смотреть возможности</a>
+      </div>
+    </div>
+    <aside class="preview" aria-hidden="true">
+      <div class="row"><span>Баланс</span><b>48 200 ₽</b></div>
+      <div class="row"><span>Доходы месяца</span><b class="positive">92 000 ₽</b></div>
+      <div class="row"><span>Расходы месяца</span><b>43 800 ₽</b></div>
+      <div class="row"><span>Цель «Подушка»</span><b>64%</b></div>
+    </aside>
+  </section>
+
+  <!-- Карточки функций, которые уже есть в приложении -->
+  <section class="wrap section" id="features">
+    <h2>Что умеет приложение</h2>
+    <div class="grid">
+      <article class="card"><h3>Операции</h3><p>Доходы и расходы по категориям, поиск, фильтры и точные суммы до копеек.</p></article>
+      <article class="card"><h3>Бюджеты</h3><p>Лимиты на месяц и прогресс исполнения, чтобы видеть перерасход сразу.</p></article>
+      <article class="card"><h3>Цели</h3><p>Накопления с прогрессом. Цели ведутся отдельно и не списывают баланс сами.</p></article>
+      <article class="card"><h3>Отчёты</h3><p>Произвольный период, CSV и печать. Удобно сохранить сводку в файл.</p></article>
+      <article class="card"><h3>Темы</h3><p>Светлая и тёмная тема одной кнопкой в правом нижнем углу. Выбор запоминается.</p></article>
+      <article class="card"><h3>Резервные копии</h3><p>Экспорт и восстановление JSON. Данные можно перенести на другой компьютер.</p></article>
+    </div>
+  </section>
+
+  <section class="wrap section" id="how">
+    <h2>Как начать</h2>
+    <div class="steps">
+      <article class="step"><h3>Откройте учёт</h3><p class="lead" style="font-size:15px;margin:0">Перейдите в приложение — сервер и аккаунт не нужны.</p></article>
+      <article class="step"><h3>Добавьте операцию</h3><p class="lead" style="font-size:15px;margin:0">Укажите сумму, категорию и дату. Баланс пересчитается сразу.</p></article>
+      <article class="step"><h3>Сохраните копию</h3><p class="lead" style="font-size:15px;margin:0">В настройках скачайте JSON, чтобы не потерять историю.</p></article>
+    </div>
+  </section>
+
+  <section class="wrap section" id="privacy">
+    <h2>Где хранятся данные</h2>
+    <p class="note">Сайт работает полностью в браузере. Нет сервера, входа и отправки финансов в интернет. По умолчанию используется постоянное хранилище браузера. Смена компьютера или очистка данных сайта удалит записи, если нет файла JSON.</p>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <span>Мой бюджет · учебный автономный проект</span>
+  <a href="moy_budget_v3.html">Перейти к учёту</a>
+</footer>
+
+<!-- Та же кнопка темы, что и в приложении: общий ключ localStorage -->
+<button type="button" id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Переключить на тёмную тему" title="Тёмная тема">🌙</button>
+<script>
+'use strict';
+const THEME_KEY='my_budget_theme_v1';
+const btn=document.getElementById('themeToggle');
+function applyTheme(theme){
+ const dark=theme==='dark';
+ document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+ btn.textContent=dark?'☀️':'🌙';
+ btn.setAttribute('aria-pressed',dark?'true':'false');
+ btn.setAttribute('aria-label',dark?'Переключить на светлую тему':'Переключить на тёмную тему');
+ btn.title=dark?'Светлая тема':'Тёмная тема';
+}
+let theme='light';
+try{const saved=localStorage.getItem(THEME_KEY);if(saved==='dark'||saved==='light')theme=saved}catch(e){}
+applyTheme(theme);
+btn.addEventListener('click',()=>{
+ const next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+ try{localStorage.setItem(THEME_KEY,next)}catch(e){}
+ applyTheme(next);
+});
+</script>
+</body>
+</html>
